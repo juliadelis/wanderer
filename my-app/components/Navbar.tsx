@@ -1,9 +1,15 @@
+"use client";
+
 import { NAV_LINKS } from "@/constants/index";
 import Image from "@/node_modules/next/image";
 import Link from "@/node_modules/next/link";
 import Button from "./Button";
+import { useState } from "react";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
+import MenuOverlay from "./MenuOverlay";
 
 const Navbar = () => {
+  const [navbarOpen, setNavbarOpen] = useState(false);
   return (
     <nav className="flexBetween max-container padding-container relative z-30 py-5">
       <Link href="/">
@@ -29,13 +35,29 @@ const Navbar = () => {
           variant="btn_dark_green"
         />
       </div>
-      <Image
+      <div className="mobile-menu block lg:hidden ">
+        {!navbarOpen ? (
+          <button
+            onClick={() => setNavbarOpen(true)}
+            className="flex items-center px-3 py-2 border rounded border-slate-900 text-slate-900 hover:text-black hover:border-black">
+            <Bars3Icon className="h-5 w-5" />{" "}
+          </button>
+        ) : (
+          <button
+            onClick={() => setNavbarOpen(false)}
+            className="flex items-center px-3 py-2 border rounded border-slate-900 text-slate-900 hover:text-black hover:border-black">
+            <XMarkIcon className="h-5 w-5" />{" "}
+          </button>
+        )}
+      </div>
+      {navbarOpen ? <MenuOverlay /> : null}
+      {/* <Image
         src="menu.svg"
         alt="menu"
         width={32}
         height={32}
         className="inline-block cursor-pointer lg:hidden"
-      />
+      /> */}
     </nav>
   );
 };
